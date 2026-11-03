@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chess Opening Statistics</title>
+        <link rel="stylesheet" href="report.css">
+        <script type="module" src="report.js" defer></script>
+        <script
+            type="module"
+            src="https://unpkg.com/chessboard-element?module">
+        </script>
+    </head>
+
+    <body>
+        <div class="page">
+            <header>
+                <div class="title-and-navbar">
+                    <h1>Chess Opening Statistics</h1>
+
+                    <nav>
+                        <a class="nav-link" href="About">About Us</a>
+                        <a class="nav-link" href="Github">Github Link</a>
+                    </nav>
+                </div>
+
+                <div class="search-div">
+                    <input class="opening-search-input">
+                    <button class="opening-search-button">Search</button>
+
+                    <div class="suggestions"></div>
+                </div>
+            </header>
+
+            <div class="display-main">
+                <div class="opening-intro-box">
+                    <h2 class="curr-opening-title"></h2>
+                    <div class="wording-and-board">
+                        <div class="chess-board-report">
+                            <chess-board position="start" hide-notation></chess-board>
+                        </div>
+                        <div class="intro-text">
+                            <p>
+                                1. c4 is the English Opening. It is the fourth most commonly played opening move in chess. By playing this move, White allows the queen to move freely and also discourages Black from responding with 1...d5. Additionally, White ensures that the c-pawn will not be blocked behind a knight on c3. The resulting positions often resemble those that arise from 1. d4 openings rather than 1. e4 openings, and the move d4 is frequently played later on.
+
+                                While this opening is not as sharp as 1. e4 or 1. d4, it is still effective in controlling the d5 square and is highly flexible, allowing for easy transpositions into other openings, and is often used when White desires to avoid certain responses to 1. d4 by Black. For example, transposition to Queen's Gambit and Indian Defence positions are very frequently seen.
+
+                                Black's responses
+                                1...Nf6 is likely to transpose into an Indian Defence or one of the alternative lines below.
+                                1...e5 is a reversed Sicilian Defence, but the extra tempo for White changes the patterns noticeably.
+                                1...e6 prepares 2...d5 and is known as the Agincourt Defense. It often ends up transposing to a Queen's Gambit Declined or Indian Defence. An independent alternative line is the Mikėnas-Carls Variation, continuing 2. Nc3 Nf6 3. e4.
+                                1...c5 is the Symmetrical Variation, which has many unique lines. Often a d4 or d5 pawn break will occur later in the game.
+                                1...c6 will usually either transpose into the Caro-Kann Defence or the Slav Defence.
+                                1...f5, the Anglo-Dutch Defence, leads to sharp tactical lines for Black, but can open a powerful kingside attack. This is likely to transpose into the regular Dutch Defense after 2.d4.
+                                1...g6 is likely to transpose into a King's Indian Defence, Reversed Sicilian, or Symmetrical Variation.
+                                1...b6 will in all likelihood transpose into the English Defence.
+                                1...d5 is seldom played but may transpose into the Queen's Gambit or the Réti Opening.
+                                1...b5, the Jaenisch or Halibut Gambit, can give good practical chances for Black, but is considered unsound at the professional level.
+                                1...g5, the Myers Defence, gives White a small advantage.
+                                1...Nc6, the Anglo-Lithuanian Variation, is relatively rare, with 2. Nc3 or 2. g3 staying in the realm of English openings and 2. d4 transposing into a line in the Mikenas Defence.
+                                Statistics
+                                Theory table
+                                All possible Black's moves
+                                References
+                                Modern Chess Openings: MCO-14. 1999. Nick de Firmian, Walter Korn. ISBN 0-8129-3084-3.
+                                Kasparov, Garry, & Keene, Raymond 1989 Batsford chess openings 2. ISBN 0-8050-3409-9.
+
+
+                                Read more on WikiBooks
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="analyze-side">
+                    <div class="elo-adjusting-bar"></div>
+                    <div class="analyze-box"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

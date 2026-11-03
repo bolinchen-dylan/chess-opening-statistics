@@ -1,0 +1,152 @@
+/* ===== 1. 页面 Page ===== */
+
+body{
+    font-family: "Times New Roman", Times, serif;
+    width:100%;
+    height:100%;
+    margin:0;
+    overflow:hidden;
+}
+.page{
+    width: min(100vw, calc(100vh * 16 / 9));
+    aspect-ratio: 16 / 9;
+}
+
+/* ===== 2. 头版 Header ===== */
+.search-div{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:1px;
+    width:30%;
+    height:40%;
+}
+.title-and-navbar{
+    display:flex;
+    align-items:center;
+    width:60%;
+    height:80%;
+    gap:40px;
+}
+header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:10%;
+    width:96%;
+    margin:0 2% 1% 2%;
+}
+h1{
+    white-space:nowrap;
+    width:50%;
+    font-size:4vh;
+}
+nav{
+    display:flex;
+    align-items:center;
+    width:40%;
+    height:100%;
+    gap:30px;
+}
+.nav-link{
+    font-size:3vh;
+}
+input{
+    width:80%;
+    height:100%;
+    font-family: inherit;
+}
+button{
+    width:20%;
+    height:100%;
+    font-size:2.5vh;
+    font-family: inherit;
+}
+.search-div{
+    position:relative;
+}
+.suggestions{
+    display:none;
+}
+.suggestions.is-open{
+    display:block;
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    background-color:aqua;
+    border:1px solid black;
+    z-index:10;
+}
+
+.display-main{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:85%;
+    width:96%;
+    gap:10px;
+    margin:0 2% 2% 2%;
+    gap:1%;
+    border:solid;
+}
+.opening-intro-box{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    height:100%;
+    width:45%;
+    border:1px solid blue;
+}
+.analyze-side{
+    display:flex;
+    flex-direction:column;
+    height:100%;
+    width:55%;
+    border:1px solid blue;
+}
+.curr-opening-title{
+    align-items:center;
+    width:100%;
+    height:10%;
+    margin:0 0 2% 0;
+    font-size:7vh;
+    border:1px solid orange;
+}
+.wording-and-board{
+    display:flow-root;
+    overflow-y:auto;
+    width:100%;
+    height:90%;
+    border:1px solid aquamarine;
+}
+.chess-board-report{
+    float:left;
+    align-items:end;
+    justify-content:left;
+    width:40%;
+    aspect-ratio:1/1;
+    border:1px solid greenyellow;
+}
+.chess-board-report chess-board{
+    display:block;
+    width:100%;
+    height:100%;
+}
+.intro-text{
+    line-height:1.6;
+}
+.elo-adjusting-bar{
+    align-items:end;
+    justify-content:flex-start;
+    width:80%;
+    height:8%;
+    margin:2% auto 1% 0;
+    border:1px solid mediumaquamarine;
+}
+.analyze-box{
+    width:100%;
+    height:92%;
+    border:1px solid red;
+}

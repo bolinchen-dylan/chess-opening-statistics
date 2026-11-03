@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chess Opening Statistics</title>
+        <link rel="stylesheet" href="style.css">
+        <script type="module" src="script.js?v=4" defer></script>
+        <script
+            type="module"
+            src="https://unpkg.com/chessboard-element?module">
+        </script>
+    </head>
+
+    <body>
+        <div class="page">
+            <header>
+                <div class="title-and-navbar">
+                    <h1>Chess Opening Statistics</h1>
+
+                    <nav>
+                        <a class="nav-link" href="About">About Us</a>
+                        <a class="nav-link" href="Github">Github Link</a>
+                    </nav>
+                </div>
+
+                <div class="search-div">
+                    <input class="opening-search-input">
+                    <button class="opening-search-button">Search</button>
+
+                    <div class="suggestions">
+                    </div>
+                </div>
+            </header>
+
+            <div class="display-main">
+                <div class="chess-board-main">
+                    <chess-board position="start"></chess-board>
+                </div>
+                <div class="side-box">
+                    <div class="move-container">
+                        <div class="move-box"></div>
+                        <div class="move-function-box">
+                            <button class="backward-move">Back</button>
+                            <button class="forward-move">Next</button>
+                        </div>
+                    </div>
+                    <div class="info-area">
+                        <div class="opening-info-box">opening-info-box</div>
+                        <div class="popular-linked-opening-box">popular-linked-opening-box</div>
+                        <div class="possible-move-box">possible-move-box</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
