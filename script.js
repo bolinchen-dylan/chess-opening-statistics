@@ -11,6 +11,7 @@ const openingInput = document.querySelector(".opening-search-input");
 const suggestions = document.querySelector(".suggestions");
 const searchKey = document.querySelector(".opening-search-button");
 const openingInfoBox = document.querySelector(".opening-info-box");
+const popularOpeningBox = document.querySelector(".popular-linked-opening-box")
 
 
 const openings = [
@@ -209,6 +210,7 @@ async function checkAndShowOpeningFullData(stringUCI){
         detailedData = await response.json();
     }
     showOpeningData(detailedData);
+    showPopularPossibleOpening(detailedData);
 }
 
 function showOpeningData(positionFullData){
@@ -218,5 +220,33 @@ function showOpeningData(positionFullData){
         const openingData = positionFullData.opening;
         console.log("Curr Opening: " + openingData.eco + " " + openingData.name);
         openingInfoBox.textContent = "Curr Opening: " + openingData.eco + " " + openingData.name;
+    }
+}
+
+function showPopularPossibleOpening(positionFullData){
+    if(positionFullData === "initialPosition"){
+        popularOpeningBox.textContent = "Play a move to see possible openings!!!";
+    }else{
+        const names = positionFullData.moves.map(move => move.opening?.name);
+        const moves = positionFullData.moves.map(move => move.san);
+        console.log(names);
+        console.log(moves);
+        const size = names.length;
+        let index = 1;
+        
+        popularOpeningBox.replaceChildren();
+        for(let i = 0; i < size; i++){
+            if(names[i] !== undefined){
+                const newDiv = document.createElement("div");
+                newDiv.textContent = index + ". " + names[i] + "--after: " + moves[i]; 
+                popularOpeningBox.appendChild(newDiv);
+                index++;
+            }
+        }
+        if(index === 1){
+            const newDiv = document.createElement("div");
+            newDiv.textContent = "No transposition next move!!!";
+            popularOpeningBox.appendChild(newDiv);
+        }
     }
 }
