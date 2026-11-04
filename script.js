@@ -2,7 +2,6 @@ import { Chess } from "https://esm.sh/chess.js";
 
 const game = new Chess();
 var moveHistory = game.history();
-var shownMoveNum = 0;
 const chessBoard = document.querySelector("chess-board");
 const moveBox = document.querySelector(".move-box");
 const backMove = document.querySelector(".backward-move"); 
@@ -97,6 +96,8 @@ chessBoard.addEventListener("drop", function(requestMove) {
 
         console.log("Show move: " + moveHistory);
         console.log("");
+
+        checkOpeningFullData(fromSANtoUCI());
         
     }catch(error){
         console.log("Illegal Move!!!");
@@ -165,4 +166,37 @@ function forwardMove(){
     }else{
         console.log("This is the last move!!!");
     }
+}
+
+function fromSANtoUCI(){
+    const moveNum = game.history().length;
+    const detailedHistory = game.history({ verbose : true });
+    var toUCIString = detailedHistory[0].from + detailedHistory[0].to;
+    console.log(toUCIString);
+    for(let i = 1; i < moveNum; i++){
+        toUCIString += "," + detailedHistory[i].from + detailedHistory[i].to;
+        if(detailedHistory[i].promotion){
+            // Might need to change when introduces import, or just
+            // want to add promoting choices.
+            toUCIString += "q";
+        }
+        console.log(toUCIString);
+        console.log(detailedHistory);
+    }
+    return toUCIString;
+}
+
+async function checkOpeningFullData(stringUCI){
+    console.log("try fetch: ")
+    console.log("/api/opening?play=" + encodeURIComponent(stringUCI));
+
+    const response = await fetch(
+        "/api/opening?play=" + encodeURIComponent(stringUCI)
+    );
+
+    console.log("opening check request sent!");
+
+    const data = await response.json();
+
+    return data
 }
