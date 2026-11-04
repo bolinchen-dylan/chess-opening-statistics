@@ -2,7 +2,6 @@ import { Chess } from "https://esm.sh/chess.js";
 
 const game = new Chess();
 var moveHistory = game.history();
-var shownMoveNum = 0;
 const chessBoard = document.querySelector("chess-board");
 const moveBox = document.querySelector(".move-box");
 const backMove = document.querySelector(".backward-move"); 
@@ -11,6 +10,7 @@ const nextMove = document.querySelector(".forward-move");
 const openingInput = document.querySelector(".opening-search-input");
 const suggestions = document.querySelector(".suggestions");
 const searchKey = document.querySelector(".opening-search-button");
+const openingInfoBox = document.querySelector(".opening-info-box");
 
 
 const openings = [
@@ -145,12 +145,15 @@ function showMove(){
     moveElement.textContent = moveHistory[index - 1];
     moveBox.append(moveElement);
     moveBox.scrollTop = moveBox.scrollHeight;
+
+    checkAndShowOpeningFullData(fromSANtoUCI());
 }
 
 function backwardMove(){
     if(moveHistory.length > 0){
         game.undo();
         chessBoard.setPosition(game.fen());
+        checkAndShowOpeningFullData(fromSANtoUCI());
     }else{
         console.log("This is the first move!!!");
     }
@@ -162,7 +165,58 @@ function forwardMove(){
         console.log(moveHistory[currMoveIndex]);
         game.move(moveHistory[currMoveIndex]);
         chessBoard.setPosition(game.fen());
+        checkAndShowOpeningFullData(fromSANtoUCI());
     }else{
         console.log("This is the last move!!!");
+    }
+}
+
+function fromSANtoUCI(){
+    const moveNum = game.history().length;
+    if(moveNum === 0){
+        return "initialPosition";
+    }
+    const detailedHistory = game.history({ verbose : true });
+    var toUCIString = detailedHistory[0].from + detailedHistory[0].to;
+    console.log(toUCIString);
+    for(let i = 1; i < moveNum; i++){
+        toUCIString += "," + detailedHistory[i].from + detailedHistory[i].to;
+        if(detailedHistory[i].promotion){
+            // Might need to change when introduces import, or just
+            // want to add promoting choices.
+            toUCIString += "q";
+        }
+        console.log(toUCIString);
+        console.log(detailedHistory);
+    }
+    return toUCIString;
+}
+
+async function checkAndShowOpeningFullData(stringUCI){
+    let detailedData = null;
+    if(stringUCI === "initialPosition"){
+        detailedData = stringUCI;
+    }else{
+        console.log("try fetch: ")
+        console.log("/api/opening?play=" + encodeURIComponent(stringUCI));
+
+        const response = await fetch(
+            "/api/opening?play=" + encodeURIComponent(stringUCI)
+        );
+
+        console.log("opening check request sent!");
+
+        detailedData = await response.json();
+    }
+    showOpeningData(detailedData);
+}
+
+function showOpeningData(positionFullData){
+    if(positionFullData === "initialPosition"){
+        openingInfoBox.textContent = "Curr Opening: Initial Position!!!";
+    }else{
+        const openingData = positionFullData.opening;
+        console.log("Curr Opening: " + openingData.eco + " " + openingData.name);
+        openingInfoBox.textContent = "Curr Opening: " + openingData.eco + " " + openingData.name;
     }
 }
