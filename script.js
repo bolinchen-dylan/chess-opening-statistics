@@ -10,6 +10,7 @@ const nextMove = document.querySelector(".forward-move");
 const openingInput = document.querySelector(".opening-search-input");
 const suggestions = document.querySelector(".suggestions");
 const searchKey = document.querySelector(".opening-search-button");
+const openingInfoBox = document.querySelector(".opening-info-box");
 
 
 const openings = [
@@ -96,8 +97,6 @@ chessBoard.addEventListener("drop", function(requestMove) {
 
         console.log("Show move: " + moveHistory);
         console.log("");
-
-        checkOpeningFullData(fromSANtoUCI());
         
     }catch(error){
         console.log("Illegal Move!!!");
@@ -146,12 +145,15 @@ function showMove(){
     moveElement.textContent = moveHistory[index - 1];
     moveBox.append(moveElement);
     moveBox.scrollTop = moveBox.scrollHeight;
+
+    checkAndShowOpeningFullData(fromSANtoUCI());
 }
 
 function backwardMove(){
     if(moveHistory.length > 0){
         game.undo();
         chessBoard.setPosition(game.fen());
+        checkAndShowOpeningFullData(fromSANtoUCI());
     }else{
         console.log("This is the first move!!!");
     }
@@ -163,6 +165,7 @@ function forwardMove(){
         console.log(moveHistory[currMoveIndex]);
         game.move(moveHistory[currMoveIndex]);
         chessBoard.setPosition(game.fen());
+        checkAndShowOpeningFullData(fromSANtoUCI());
     }else{
         console.log("This is the last move!!!");
     }
@@ -170,6 +173,9 @@ function forwardMove(){
 
 function fromSANtoUCI(){
     const moveNum = game.history().length;
+    if(moveNum === 0){
+        return "initialPosition";
+    }
     const detailedHistory = game.history({ verbose : true });
     var toUCIString = detailedHistory[0].from + detailedHistory[0].to;
     console.log(toUCIString);
@@ -186,17 +192,31 @@ function fromSANtoUCI(){
     return toUCIString;
 }
 
-async function checkOpeningFullData(stringUCI){
-    console.log("try fetch: ")
-    console.log("/api/opening?play=" + encodeURIComponent(stringUCI));
+async function checkAndShowOpeningFullData(stringUCI){
+    let detailedData = null;
+    if(stringUCI === "initialPosition"){
+        detailedData = stringUCI;
+    }else{
+        console.log("try fetch: ")
+        console.log("/api/opening?play=" + encodeURIComponent(stringUCI));
 
-    const response = await fetch(
-        "/api/opening?play=" + encodeURIComponent(stringUCI)
-    );
+        const response = await fetch(
+            "/api/opening?play=" + encodeURIComponent(stringUCI)
+        );
 
-    console.log("opening check request sent!");
+        console.log("opening check request sent!");
 
-    const data = await response.json();
+        detailedData = await response.json();
+    }
+    showOpeningData(detailedData);
+}
 
-    return data
+function showOpeningData(positionFullData){
+    if(positionFullData === "initialPosition"){
+        openingInfoBox.textContent = "Curr Opening: Initial Position!!!";
+    }else{
+        const openingData = positionFullData.opening;
+        console.log("Curr Opening: " + openingData.eco + " " + openingData.name);
+        openingInfoBox.textContent = "Curr Opening: " + openingData.eco + " " + openingData.name;
+    }
 }

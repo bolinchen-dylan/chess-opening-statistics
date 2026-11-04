@@ -1,7 +1,10 @@
 import os
 import urllib.request
+from dotenv import load_dotenv
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse, parse_qs, urlencode
+
+load_dotenv()
 
 LICHESS_MASTERGAME_URL = "https://explorer.lichess.ovh/masters?"
 LICHESS_PLAYERGAME_URL = "https://explorer.lichess.ovh/player?"
