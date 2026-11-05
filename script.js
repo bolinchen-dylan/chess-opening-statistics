@@ -11,7 +11,8 @@ const openingInput = document.querySelector(".opening-search-input");
 const suggestions = document.querySelector(".suggestions");
 const searchKey = document.querySelector(".opening-search-button");
 const openingInfoBox = document.querySelector(".opening-info-box");
-const popularOpeningBox = document.querySelector(".popular-linked-opening-box")
+const popularOpeningBox = document.querySelector(".popular-linked-opening-box");
+const possibleMoveBox = document.querySelector(".possible-move-box");
 
 
 const openings = [
@@ -211,6 +212,7 @@ async function checkAndShowOpeningFullData(stringUCI){
     }
     showOpeningData(detailedData);
     showPopularPossibleOpening(detailedData);
+    showPossibleNextMoves(detailedData);
 }
 
 function showOpeningData(positionFullData){
@@ -247,6 +249,30 @@ function showPopularPossibleOpening(positionFullData){
             const newDiv = document.createElement("div");
             newDiv.textContent = "No transposition next move!!!";
             popularOpeningBox.appendChild(newDiv);
+        }
+    }
+}
+
+function showPossibleNextMoves(positionFullData){
+    const moves = positionFullData.moves.map(move => move.san);
+    const totalGames = positionFullData.moves.map(move => (move.white + move.draws + move.black));
+    const whiteRates = positionFullData.moves.map(move => (100 * move.white / (move.white + move.draws + move.black)).toFixed(1));
+    const drawRates = positionFullData.moves.map(move => (100 * move.draws / (move.white + move.draws + move.black)).toFixed(1));
+    const blackRates = positionFullData.moves.map(move => (100 * move.black / (move.white + move.draws + move.black)).toFixed(1));
+    
+    const size = moves.length;
+
+    possibleMoveBox.replaceChildren();
+    if(size === 0){
+        const newDiv = document.createElement("div");
+        newDiv.textContent = "No game history in this position!!!";
+        possibleMoveBox.appendChild(newDiv);
+    }else{
+        for(let i = 0; i < size; i++){
+        const newDiv = document.createElement("div");
+        newDiv.textContent = (i + 1) + ". " + moves[i] + " (" + totalGames[i] + " games) " + 
+            whiteRates[i] + "% " + drawRates[i] + "% " + blackRates[i] + "%";
+        possibleMoveBox.appendChild(newDiv);
         }
     }
 }
