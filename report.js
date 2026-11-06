@@ -1,22 +1,38 @@
 import { Chess } from "https://esm.sh/chess.js";
 const game = new Chess();
 
-game.move("e4");
-game.move("c5");
-
 const openingInput = document.querySelector(".opening-search-input");
 const suggestions = document.querySelector(".suggestions");
 const searchKey = document.querySelector(".opening-search-button");
 const openingHeader = document.querySelector(".curr-opening-title");
+const reportBoard = document.querySelector("chess-board");
 
 const response = await fetch("data/openings.json");
 const openings = await response.json();
 
+// Init
 const params = new URLSearchParams(window.location.search);
 const webOpening = params.get("opening");
 openingHeader.textContent = webOpening;
 console.log(webOpening);
 
+const openingMoves = openings.find(function(o){
+    return o.name === webOpening;
+});
+console.log(openingMoves.uci);
+const moves = openingMoves.uci.split(" ");
+moves.forEach(function(currMove) {
+    game.move({
+        from: currMove.slice(0, 2),
+        to: currMove.slice(2, 4),
+        promotion: currMove[4]
+    });
+    console.log("moved: " + currMove + "---" + game.fen());
+
+    reportBoard.setPosition(game.fen());
+});
+
+// Searching
 openingInput.addEventListener("input", function() {
     suggestions.replaceChildren();
     suggestions.classList.add("is-open");
