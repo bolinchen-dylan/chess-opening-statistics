@@ -15,14 +15,8 @@ const popularOpeningBox = document.querySelector(".popular-linked-opening-box");
 const possibleMoveBox = document.querySelector(".possible-move-box");
 
 
-const openings = [
-    "Sicilian Defense",
-    "French Defense",
-    "Caro-Kann Defense",
-    "Queen's Gambit",
-    "Ruy Lopez",
-    "Italian Game"
-];
+const response = await fetch("data/openings.json");
+const openings = await response.json();
 
 // Searching Bar Implementation
 
@@ -31,13 +25,17 @@ openingInput.addEventListener("input", function() {
     suggestions.classList.add("is-open");
     const actualInput = openingInput.value.trim();
     if (actualInput !== ""){
-        const matchingOpening = openings.filter(function(o) {
-            const lo = o.toLowerCase();
-            return lo.includes(actualInput.toLowerCase());
-        }).slice(0, 5);
+        let matchingOpening = openings.filter(opening => 
+            opening.name.toLowerCase().startsWith(actualInput.toLowerCase())
+        ).slice(0, 5);
+        if (matchingOpening.length === 0){
+            matchingOpening = openings.filter(opening => 
+                opening.name.toLowerCase().includes(actualInput.toLowerCase())
+            ).slice(0, 5);
+        }
         matchingOpening.forEach(function(o) { 
             const suggestionOpenings = document.createElement("div");
-            suggestionOpenings.textContent = o;
+            suggestionOpenings.textContent = o.name;
             suggestionOpenings.addEventListener("mousedown", function() {
                 window.location.href = "report.html?opening=" + encodeURIComponent(o);
             })
