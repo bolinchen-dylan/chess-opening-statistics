@@ -81,6 +81,7 @@ button{
 
 .display-main{
     display:flex;
+    flex-direction:column;
     align-items:center;
     justify-content:center;
     height:85%;
@@ -89,6 +90,19 @@ button{
     margin:0 2% 2% 2%;
     gap:1%;
     border:solid;
+}
+.curr-opening-title{
+    align-items:center;
+    width:100%;
+    height:8%;
+    margin:0 0 0% 0;
+    font-size:3.5vh;
+    border:1px solid orange;
+}
+.report-main{
+    display:flex;
+    height:92%;
+    width:100%;
 }
 .opening-intro-box{
     display:flex;
@@ -106,19 +120,11 @@ button{
     width:55%;
     border:1px solid blue;
 }
-.curr-opening-title{
-    align-items:center;
-    width:100%;
-    height:10%;
-    margin:0 0 2% 0;
-    font-size:7vh;
-    border:1px solid orange;
-}
 .wording-and-board{
     display:flow-root;
     overflow-y:auto;
     width:100%;
-    height:90%;
+    height:100%;
     border:1px solid aquamarine;
 }
 .chess-board-report{

@@ -37,7 +37,7 @@ openingInput.addEventListener("input", function() {
             const suggestionOpenings = document.createElement("div");
             suggestionOpenings.textContent = o.name;
             suggestionOpenings.addEventListener("mousedown", function() {
-                window.location.href = "report.html?opening=" + encodeURIComponent(o);
+                window.location.href = "report.html?opening=" + encodeURIComponent(o.name);
             })
             suggestions.append(suggestionOpenings);
         });
@@ -51,26 +51,28 @@ openingInput.addEventListener("blur", function(){
 openingInput.addEventListener("keydown", function(event) {
     if (event.key === "Enter"){
         const actualInput = openingInput.value.trim();
+        if (actualInput === "") return;
         const matchingOpening = openings.filter(function(o) {
-            const lo = o.toLowerCase();
+            const lo = o.name.toLowerCase();
             return lo.includes(actualInput.toLowerCase());
         }).slice(0);
-        if (matchingOpening[0] !== undefined) {
+        if (matchingOpening.length !== 0) {
             window.location.href = 
-                "report.html?opening=" + encodeURIComponent(matchingOpening[0]);
+                "report.html?opening=" + encodeURIComponent(matchingOpening[0].name);
         }
     }
 });
 
 searchKey.addEventListener("mousedown", function() {
     const actualInput = openingInput.value.trim();
+    if (actualInput === "") return;
     const matchingOpening = openings.filter(function(o) {
-        const lo = o.toLowerCase();
+        const lo = o.name.toLowerCase();
         return lo.includes(actualInput.toLowerCase());
-    }).slice(0);
-    if (matchingOpening[0] !== undefined) {
+    });
+    if (matchingOpening.length !== 0) {
         window.location.href = 
-            "report.html?opening=" + encodeURIComponent(matchingOpening[0]);
+            "report.html?opening=" + encodeURIComponent(matchingOpening[0].name);
     }
 });
 
