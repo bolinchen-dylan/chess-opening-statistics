@@ -10,6 +10,8 @@ LICHESS_MASTERGAME_URL = "https://explorer.lichess.ovh/masters?"
 LICHESS_PLAYERGAME_URL = "https://explorer.lichess.ovh/player?"
 LICHESS_ONLINEGAME_URL = "https://explorer.lichess.ovh/lichess?"
 
+WIKIBOOK_URL = "https://en.wikibooks.org/w/api.php?"
+
 
 class NoCacheHandler(SimpleHTTPRequestHandler):
     def end_headers(self):
@@ -42,11 +44,37 @@ class MyHandler(SimpleHTTPRequestHandler):
             self.send_header("Content-Type", "application/json; charset=utf-8")
             self.end_headers()
             self.wfile.write(lichess_data)
+        elif parsed.path == "/api/description":
+            title = parse_qs(parsed.query).get("title", [""])[0]
+            params = {
+                "action": "parse",
+                "page": title,
+                "format": "json",
+                "formatversion": "2"
+            }
+            query = urlencode(params)
+
+            url = WIKIBOOK_URL + query
+
+            request = urllib.request.Request(
+                url,
+                headers={"User-Agent": "ChessOpeningStatistics https://github.com/bolinchen-dylan/chess-opening-statistics"}
+            )
+
+            with urllib.request.urlopen(request, timeout=10) as response:
+                data = response.read()
+
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()  
+            self.wfile.write(data)
         else:
             super().do_GET()
 
 
 server = ThreadingHTTPServer(("127.0.0.1", 8080), MyHandler)
+
 
 print("Development server running at http://127.0.0.1:8080")
 server.serve_forever()
