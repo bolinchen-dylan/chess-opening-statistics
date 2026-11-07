@@ -24,7 +24,7 @@ class MyHandler(SimpleHTTPRequestHandler):
         parsed = urlparse(self.path)
         if parsed.path == "/api/opening":
             params = parse_qs(parsed.query)
-            openingMoves = params["play"][0]
+            openingMoves = params.get("play", [""])[0]
             print("opening requested in the server!")
 
             token = os.environ.get("LICHESS_TOKEN")
