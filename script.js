@@ -17,6 +17,7 @@ const possibleMoveBox = document.querySelector(".possible-move-box");
 
 const response = await fetch("data/openings.json");
 const openings = await response.json();
+checkAndShowOpeningFullData(fromSANtoUCI());
 
 // Searching Bar Implementation
 
@@ -197,26 +198,27 @@ function fromSANtoUCI(){
 async function checkAndShowOpeningFullData(stringUCI){
     let detailedData = null;
     if(stringUCI === "initialPosition"){
-        detailedData = stringUCI;
-    }else{
-        console.log("try fetch: ")
-        console.log("/api/opening?play=" + encodeURIComponent(stringUCI));
-
-        const response = await fetch(
-            "/api/opening?play=" + encodeURIComponent(stringUCI)
-        );
-
-        console.log("opening check request sent!");
-
-        detailedData = await response.json();
+        stringUCI = ""
     }
+    console.log("try fetch: ")
+    console.log("/api/opening?play=" + encodeURIComponent(stringUCI));
+
+    const response = await fetch(
+        "/api/opening?play=" + encodeURIComponent(stringUCI)
+    );
+
+    console.log("opening check request sent!");
+
+    detailedData = await response.json();
+
     showOpeningData(detailedData);
     showPopularPossibleOpening(detailedData);
     showPossibleNextMoves(detailedData);
 }
 
 function showOpeningData(positionFullData){
-    if(positionFullData === "initialPosition"){
+    console.log(positionFullData);
+    if(!positionFullData.opening){
         openingInfoBox.textContent = "Curr Opening: Initial Position!!!";
     }else{
         const openingData = positionFullData.opening;
