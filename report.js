@@ -25,6 +25,7 @@ console.log(currOpening.uci);
 initPosition(currOpening);
 
 
+// When clicked title, redir to the main page initial position.
 titleMain.addEventListener("click", function() {
     window.location.href = "index.html";
 })

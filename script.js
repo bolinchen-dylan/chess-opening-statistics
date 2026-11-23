@@ -21,7 +21,7 @@ const openings = await response.json();
 checkAndShowOpeningFullData(fromSANtoUCI());
 
 
-// When clicked title, redir to the main page.
+// When clicked title, redir to the main page initial position.
 titleMain.addEventListener("click", function() {
     window.location.href = "index.html";
 })
