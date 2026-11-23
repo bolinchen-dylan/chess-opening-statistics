@@ -7,6 +7,7 @@ const searchKey = document.querySelector(".opening-search-button");
 const openingHeader = document.querySelector(".curr-opening-title");
 const reportBoard = document.querySelector("chess-board");
 const openingDescription = document.querySelector(".opening-description");
+const titleMain = document.querySelector(".title-main");
 
 const response = await fetch("data/openings.json");
 const openings = await response.json();
@@ -23,6 +24,10 @@ const currOpening = openings.find(function(o){
 console.log(currOpening.uci);
 initPosition(currOpening);
 
+
+titleMain.addEventListener("click", function() {
+    window.location.href = "index.html";
+})
 
 // Find chess opening description --- with wikibook chess opening theory
 console.log("this is the raw pgn: " + currOpening.pgn);
@@ -65,7 +70,6 @@ openingInput.addEventListener("keydown", function(event) {
         const actualInput = openingInput.value.trim();
         if (actualInput === "") return;
         const matchedOpening = suggestions.firstElementChild.textContent;
-        console.log("this is the matchedOpening: " + matchedOpening);
         if (matchedOpening !== "") {
             window.location.href = 
                 "report.html?opening=" + encodeURIComponent(matchedOpening);
@@ -77,7 +81,6 @@ searchKey.addEventListener("mousedown", function() {
     const actualInput = openingInput.value.trim();
     if (actualInput === "") return;
     const matchedOpening = suggestions.firstElementChild.textContent;
-    console.log("this is the matchedOpening: " + matchedOpening);
     if (matchedOpening !== "") {
         window.location.href = 
             "report.html?opening=" + encodeURIComponent(matchedOpening);

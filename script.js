@@ -13,11 +13,18 @@ const searchKey = document.querySelector(".opening-search-button");
 const openingInfoBox = document.querySelector(".opening-info-box");
 const popularOpeningBox = document.querySelector(".popular-linked-opening-box");
 const possibleMoveBox = document.querySelector(".possible-move-box");
+const titleMain = document.querySelector(".title-main");
 
 
 const response = await fetch("data/openings.json");
 const openings = await response.json();
 checkAndShowOpeningFullData(fromSANtoUCI());
+
+
+// When clicked title, redir to the main page.
+titleMain.addEventListener("click", function() {
+    window.location.href = "index.html";
+})
 
 // Searching Bar Implementation
 
@@ -54,7 +61,6 @@ openingInput.addEventListener("keydown", function(event) {
         const actualInput = openingInput.value.trim();
         if (actualInput === "") return;
         const matchedOpening = suggestions.firstElementChild.textContent;
-        console.log("this is the matchedOpening: " + matchedOpening);
         if (matchedOpening !== "") {
             window.location.href = 
                 "report.html?opening=" + encodeURIComponent(matchedOpening);
@@ -66,7 +72,6 @@ searchKey.addEventListener("mousedown", function() {
     const actualInput = openingInput.value.trim();
     if (actualInput === "") return;
     const matchedOpening = suggestions.firstElementChild.textContent;
-    console.log("this is the matchedOpening: " + matchedOpening);
     if (matchedOpening !== "") {
         window.location.href = 
             "report.html?opening=" + encodeURIComponent(matchedOpening);
