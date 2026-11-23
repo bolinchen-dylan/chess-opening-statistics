@@ -15,7 +15,7 @@ class NoCacheHandler(SimpleHTTPRequestHandler):
         super().end_headers()
 
 
-class MyHandler(SimpleHTTPRequestHandler):
+class MyHandler(NoCacheHandler):
     def do_GET(self):
         parsed = urlparse(self.path)
         if parsed.path == "/api/opening":

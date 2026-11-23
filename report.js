@@ -64,13 +64,11 @@ openingInput.addEventListener("keydown", function(event) {
     if (event.key === "Enter"){
         const actualInput = openingInput.value.trim();
         if (actualInput === "") return;
-        const matchingOpening = openings.filter(function(o) {
-            const lo = o.name.toLowerCase();
-            return lo.includes(actualInput.toLowerCase());
-        }).slice(0);
-        if (matchingOpening.length !== 0) {
+        const matchedOpening = suggestions.firstElementChild.textContent;
+        console.log("this is the matchedOpening: " + matchedOpening);
+        if (matchedOpening !== "") {
             window.location.href = 
-                "report.html?opening=" + encodeURIComponent(matchingOpening[0].name);
+                "report.html?opening=" + encodeURIComponent(matchedOpening);
         }
     }
 });
@@ -78,13 +76,11 @@ openingInput.addEventListener("keydown", function(event) {
 searchKey.addEventListener("mousedown", function() {
     const actualInput = openingInput.value.trim();
     if (actualInput === "") return;
-    const matchingOpening = openings.filter(function(o) {
-        const lo = o.name.toLowerCase();
-        return lo.includes(actualInput.toLowerCase());
-    });
-    if (matchingOpening.length !== 0) {
+    const matchedOpening = suggestions.firstElementChild.textContent;
+    console.log("this is the matchedOpening: " + matchedOpening);
+    if (matchedOpening !== "") {
         window.location.href = 
-            "report.html?opening=" + encodeURIComponent(matchingOpening[0].name);
+            "report.html?opening=" + encodeURIComponent(matchedOpening);
     }
 });
 
