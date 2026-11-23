@@ -1,10 +1,6 @@
-import os
 import urllib.request
-from dotenv import load_dotenv
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse, parse_qs, urlencode
-
-load_dotenv()
 
 LICHESS_MASTERGAME_URL = "https://explorer.lichess.ovh/masters?"
 LICHESS_PLAYERGAME_URL = "https://explorer.lichess.ovh/player?"
@@ -27,14 +23,15 @@ class MyHandler(SimpleHTTPRequestHandler):
             openingMoves = params.get("play", [""])[0]
             print("opening requested in the server!")
 
-            token = os.environ.get("LICHESS_TOKEN")
-
             query = urlencode({"play": openingMoves})
             url = LICHESS_MASTERGAME_URL + query
 
             request = urllib.request.Request(
                 url,
-                headers={"Authorization": f"Bearer {token}"}
+                headers={
+                    "User-Agent": "ChessOpeningStatistics/1.0",
+                    "Accept": "application/json"
+                }
             )
 
             with urllib.request.urlopen(request, timeout=10) as response:
